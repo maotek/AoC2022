@@ -21,14 +21,12 @@ def make_dir(data):
             if ".." in i:
                 cur = cur.parent
                 continue
-            sub_dir = Dir(parent=cur)
-            all_dirs.append(sub_dir)
-            cur = sub_dir
+            cur = Dir(parent=cur)
+            all_dirs.append(cur)
         elif "$ ls" not in i:
             file = i.split(" ")
-            if file[0] == "dir":
-                continue
-            cur.add_size(int(file[0]))
+            if file[0] != "dir":
+                cur.add_size(int(file[0]))
     return all_dirs
 
 
@@ -43,7 +41,7 @@ def part_one(data):
 
 def part_two(data):
     all_dirs = make_dir(data)
-    return min(list(filter(lambda x: x > max([i.size for i in all_dirs]) - 40_000_000, [i.size for i in all_dirs])))
+    return min(list(filter(lambda x: x > all_dirs[0].size - 40_000_000, [i.size for i in all_dirs])))
 
 
 if __name__ == "__main__":
